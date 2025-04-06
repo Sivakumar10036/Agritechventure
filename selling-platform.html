@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmConnect - Sell Your Crops</title>
+    <style>
+        :root {
+            --primary: #4CAF50; /* Green */
+            --primary-dark: #388E3C; /* Dark Green */
+            --accent: #FFC107; /* Amber */
+            --text: #333; /* Dark Gray */
+            --light-bg: #f9f9f9; /* Light Gray */
+            --border: #ddd; /* Light Gray Border */
+            --white: #fff; /* White */
+            --shadow: 0 3px 10px rgba(0, 0, 0, 0.1); /* Soft Shadow */
+        }
+        
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        button {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        /* Header */
+        header {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 15px 0;
+            box-shadow: var(--shadow);
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--accent);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+        }
+        
+        nav ul li a {
+            color: var(--white);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        nav ul li a:hover {
+            color: var(--accent);
+        }
+        
+        /* Auth Container */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 60px);
+            padding: 20px;
+        }
+        
+        .auth-box {
+            background: var(--white);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .auth-box h2 {
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text);
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        .btn {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 500;
+            width: 100%;
+            transition: background 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: var(--primary-dark);
+        }
+        
+        .auth-footer {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        
+        .auth-footer a {
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        /* Dashboard */
+        .dashboard {
+            padding: 30px 20px;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .welcome-text h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+            color: var(--primary-dark);
+        }
+        
+        .welcome-text p {
+            color: #666;
+        }
+        
+        .action-buttons .btn {
+            width: auto;
+            margin-left: 10px;
+        }
+        
+        /* Crop Grid */
+        .crop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .crop-card {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+        
+        .crop-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .crop-image {
+            height: 180px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .crop-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .crop-details {
+            padding: 15px;
+        }
+        
+        .crop-details h3 {
+            margin-bottom: 8px;
+            color: var(--primary-dark);
+        }
+        
+        .crop-price {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .crop-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        /* Add Listing Form */
+        .add-listing-form {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: var(--shadow);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-col {
+            flex: 1;
+        }
+        
+        .file-input-container {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .file-input-container input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .file-input-button {
+            display: inline-block;
+            background-color: var(--primary);
+            border: none;
+            color: var(--white);
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s ease;
+        }
+        
+        .file-input-button:hover {
+            background: var(--primary-dark);
+        }
+        
+        .image-preview {
+            width: 100%;
+            height: 180px;
+            border: 1px dashed var(--border);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .image-preview img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        
+        .preview-placeholder {
+            color: #999;
+            text-align: center;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            overflow: auto;
+        }
+        
+        .modal-content {
+            background-color: var(--white);
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            color: var(--text);
+        }
+        
+        .crop-detail-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .crop-detail-info h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--primary-dark);
+        }
+        
+        .crop-detail-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .crop-detail-meta span {
+            background-color: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 14px;
+            color: var(--text);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+            }
+        
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        
+            .action-buttons {
+                margin-top: 15px;
+            }
+        
+            .crop-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+        /* Order Form Styles */
+.checkout-form {
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+.checkout-form h3 {
+    color: var(--primary-dark);
+    margin-bottom: 15px;
+    font-size: 18px;
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 5px;
+}
+
+.checkout-form .form-group {
+    margin-bottom: 15px;
+}
+
+.checkout-form .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: var(--text);
+}
+
+.checkout-form .form-group input,
+.checkout-form .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.checkout-form .form-group input:focus,
+.checkout-form .form-group textarea:focus {
+    border-color: var(--primary);
+    outline: none;
+}
+
+/* Radio Buttons for Payment Method */
+.radio-group {
+    margin-bottom: 20px;
+}
+
+.radio-group label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--text);
+}
+
+.radio-group input[type="radio"] {
+    margin-right: 10px;
+    width: auto;
+    accent-color: var(--primary); /* Custom radio button color */
+}
+
+/* Order Summary */
+.order-summary {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    border: 1px solid var(--border);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: var(--text);
+}
+
+.summary-row span {
+    font-weight: 500;
+}
+
+.summary-total {
+    font-weight: bold;
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+    margin-top: 10px;
+    font-size: 18px;
+    color: var(--primary-dark);
+}
+
+/* Place Order Button */
+.checkout-form .btn {
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 500;
+    width: 100%;
+    transition: background 0.3s ease;
+    margin-top: 20px;
+}
+
+.checkout-form .btn:hover {
+    background: var(--primary-dark);
+}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Farmer <span>Connect</span></div>
+                
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="auth-container" id="auth-page">
+            <section class="auth-section" id="login-section">
+                <div class="auth-box">
+                    <h2>Login to Your Account</h2>
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="login-email">Email</label>
+                            <input type="email" id="login-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input type="password" id="login-password" required>
+                        </div>
+                        <button type="submit" class="btn">Login</button>
+                        <div class="auth-footer">
+                            Don't have an account? <a href="#" id="show-signup">Sign up</a>
+                        </div>
+                    </form>
+                </div>
+            </section>
+            
+            <section class="auth-section" id="signup-section" style="display:none;">
+                <div class="auth-box">
+                    <h2>Create Farmer Account</h2>
+                    <form id="signup-form">
+                        <div class="form-group">
+                            <label for="signup-name">Full Name</label>
+                            <input type="text" id="signup-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-farm">Farm Name</label>
+                            <input type="text" id="signup-farm" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-location">Location</label>
+                            <input type="text" id="signup-location" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-email">Email</label>
+                            <input type="email" id="signup-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-phone">Phone Number</label>
+                            <input type="tel" id="signup-phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-password">Password</label>
+                            <input type="password" id="signup-password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-confirm">Confirm Password</label>
+                            <input type="password" id="signup-confirm" required>
+                        </div>
+                        <button type="submit" class="btn">Create Account</button>
+                        <div class="auth-footer">
+                            Already have an account? <a href="#" id="show-login">Login</a>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+
+        <div class="dashboard container" id="dashboard-page">
+            <div class="dashboard-header">
+                <div class="welcome-text">
+                    <h1>Welcome, <span id="farmer-name">Farmer</span></h1>
+                    <p>Manage your crop listings and track sales</p>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn" id="add-listing-btn">+ Add New Listing</button>
+                    <button class="btn btn-secondary" id="logout-btn">Logout</button>
+                </div>
+            </div>
+
+            <div class="add-listing-form" id="add-listing-form">
+                <h2>Add New Crop Listing</h2>
+                <form id="crop-form">
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="crop-name">Crop Name</label>
+                                <input type="text" id="crop-name" required>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="crop-category">Crop Category</label>
+                                <select id="crop-category" required>
+                                    <option value="">Select Category</option>
+                                    <option value="grains">Grains</option>
+                                    <option value="vegetables">Vegetables</option>
+                                    <option value="fruits">Fruits</option>
+                                    <option value="pulses">Pulses</option>
+                                    <option value="oilseeds">Oilseeds</option>
+                                    <option value="spices">Spices</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="crop-quantity">Quantity Available (kg)</label>
+                                <input type="number" id="crop-quantity" min="1" required>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="crop-price">Price per kg (₹)</label>
+                                <input type="number" id="crop-price" min="0.01" step="0.01" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="crop-description">Description</label>
+                        <textarea id="crop-description" rows="4" required></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="manufacture-date">Date of Manufacture/Harvest</label>
+                                <input type="date" id="manufacture-date" required>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="best-before">Best Before Date</label>
+                                <input type="date" id="best-before" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="crop-image">Crop Image</label>
+                        <div class="file-input-container">
+                            <button type="button" class="file-input-button">Choose Image</button>
+                            <input type="file" id="crop-image" accept="image/*" required>
+                        </div>
+                        <div class="file-name" id="file-name-display">No file chosen</div>
+                        <div class="image-preview" id="image-preview">
+                            <div class="preview-placeholder">Image preview will appear here</div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancel-add">Cancel</button>
+                        <button type="submit" class="btn">Add Listing</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="crop-categories">
+                <h2 class="category-title">Your Active Listings</h2>
+                <div class="crop-grid" id="active-listings">
+                    <!-- Active listings will be added here -->
+                </div>
+            </div>
+
+            <div class="crop-categories">
+                <h2 class="category-title">Marketplace - All Categories</h2>
+                <div class="crop-grid" id="marketplace-listings">
+                    <!-- Sample marketplace listings will be added here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Crop Detail Modal -->
+    <div class="modal" id="crop-detail-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="crop-detail-container">
+                <div class="tab-container">
+                    <div class="tabs">
+                        <div class="tab active" data-tab="details">Crop Details</div>
+                        <div class="tab" data-tab="buy">Buy Now</div>
+                    </div>
+                    
+                    <div class="tab-content active" id="details-content">
+                        <img src="" alt="Crop Image" class="crop-detail-image" id="modal-crop-image">
+                        <div class="crop-detail-info">
+                            <h3 id="modal-crop-name"></h3>
+                            <div class="crop-detail-meta">
+                                <span id="modal-crop-price"></span>
+                                <span id="modal-crop-quantity"></span>
+                                <span id="modal-crop-category"></span>
+                                <span id="modal-crop-harvest"></span>
+                                <span id="modal-crop-expiry"></span>
+                            </div>
+                            <p id="modal-crop-description"></p>
+                            <button class="btn" id="show-buy-tab">Buy Now</button>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="buy-content">
+                        <form id="checkout-form" class="checkout-form">
+                            <h3>Customer Information</h3>
+                            <div class="form-group">
+                                <label for="customer-name">Full Name</label>
+                                <input type="text" id="customer-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customer-address">Delivery Address</label>
+                                <textarea id="customer-address" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="customer-phone">Mobile Number</label>
+                                <input type="tel" id="customer-phone" required>
+                            </div>
+                            
+                            <h3>Order Details</h3>
+                            <div class="form-group">
+                                <label for="order-quantity">Quantity (kg)</label>
+                                <input type="number" id="order-quantity" min="1" required>
+                            </div>
+                            
+                            <h3>Payment Method</h3>
+                            <div class="radio-group">
+                                <label>
+                                    <input type="radio" name="payment-method" value="cod" checked>
+                                    Cash on Delivery
+                                </label>
+                                <label>
+                                    <input type="radio" name="payment-method" value="bank-transfer">
+                                    Bank Transfer
+                                </label>
+                                <label>
+                                    <input type="radio" name="payment-method" value="online">
+                                    UPI/Online Payment
+                                </label>
+                            </div>
+                            
+                            <div class="order-summary">
+                                <h3>Order Summary</h3>
+                                <div class="summary-row">
+                                    <span>Crop:</span>
+                                    <span id="summary-crop-name"></span>
+                                </div>
+                                <div class="summary-row">
+                                    <span>Price per kg:</span>
+                                    <span id="summary-price"></span>
+                                </div>
+                                <div class="summary-row">
+                                    <span>Quantity:</span>
+                                    <span id="summary-quantity"></span>
+                                </div>
+                                <div class="summary-row summary-total">
+                                    <span>Total Amount:</span>
+                                    <span id="summary-total"></span>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn">Place Order</button>
+                        </form>
+                        
+                        <div class="order-success" id="order-success" style="display: none;">
+                            <div class="success-icon">✓</div>
+                            <h3>Order Placed Successfully!</h3>
+                            <p>Thank you for your purchase. The farmer will contact you soon regarding delivery.</p>
+                            <button class="btn" id="close-success">Continue Shopping</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample user data
+        const users = [
+            {
+                email: "siva@gmail.com",
+                password: "123",
+                name: "John Smith",
+                farm: "Green Valley Farm",
+                location: "Punjab"
+            }
+        ];
+
+        // Sample active listings
+        const sampleListings = [
+            {
+                id: 1,
+                name: "Organic Rice",
+                category: "grains",
+                quantity: 1200,
+                price: 32.50,
+                description: "Premium quality organic rice harvested from our pesticide-free farm.",
+                manufactureDate: "2025-01-15",
+                bestBefore: "2025-06-15",
+                image: "https://placehold.co/600x400/4CAF50/fff?text=Organic+Rice"
+            },
+            {
+                id: 2,
+                name: "Red Onions",
+                category: "vegetables",
+                quantity: 800,
+                price: 18.75,
+                description: "Fresh red onions with excellent flavor and long shelf life.",
+                manufactureDate: "2025-02-10",
+                bestBefore: "2025-04-10",
+                image: "https://placehold.co/600x400/4CAF50/fff?text=Red+Onions"
+            }
+        ];
+
+        // Sample marketplace listings
+        const marketplaceListings = [
+            {
+                id: 3,
+                name: "Premium Wheat",
+                category: "grains",
+                quantity: 500,
+                price: 24.50,
+                description: "High-quality wheat grain perfect for making chapatis and bread.",
+                manufactureDate: "2025-02-01",
+                bestBefore: "2025-07-01",
+                image: "https://placehold.co/600x400/4CAF50/fff?text=Premium+Wheat"
+            },
+            {
+                id: 4,
+                name: "Basmati Rice",
+                category: "grains",
+                quantity: 750,
+                price: 65.00,
+                description: "Aromatic basmati rice from the foothills of Himalayas.",
+                manufactureDate: "2025-01-05",
+                bestBefore: "2025-06-05",
+                image: "https://placehold.co/600x400/4CAF50/fff?text=Basmati+Rice"
+            },
+            {
+                id: 5,
+                name: "Fresh Potatoes",
+                category: "vegetables",
+                quantity: 1000,
+                price: 18.75,
+                description: "Farm-fresh potatoes harvested at the perfect time.",
+                manufactureDate: "2025-02-15",
+                bestBefore: "2025-04-15",
+                image: "https://placehold.co/600x400/4CAF50/fff?text=Fresh+Potatoes"
+            },
+            {
+                id: 6,
+                name: "Organic Tomatoes",
+                category: "vegetables",
+                quantity: 300,
+                price: 35.20,
+                description: "Juicy organic tomatoes grown without chemicals.",
+                manufactureDate: "2025-02-20",
+                bestBefore: "2025-03-10",
+                image: "https://placehold.co/600x400/4CAF50/fff?text=Organic+Tomatoes"
+            }
+        ];
+
+        // DOM elements
+        const loginSection = document.getElementById('login-section');
+        const signupSection = document.getElementById('signup-section');
+        const authPage = document.getElementById('auth-page');
+        const dashboardPage = document.getElementById('dashboard-page');
+        const farmerNameElement = document.getElementById('farmer-name');
+        const addListingForm = document.getElementById('add-listing-form');
+        const activeListingsGrid = document.getElementById('active-listings');
+        const marketplaceGrid = document.getElementById('marketplace-listings');
+        const cropDetailModal = document.getElementById('crop-detail-modal');
+        const fileInput = document.getElementById('crop-image');
+        const fileNameDisplay = document.getElementById('file-name-display');
+        const imagePreview = document.getElementById('image-preview');
+        const checkoutForm = document.getElementById('checkout-form');
+        const orderSuccess = document.getElementById('order-success');
+
+        // Current crop for detail view
+        let currentCrop = null;
+
+        // Show signup form
+        document.getElementById('show-signup').addEventListener('click', function(e) {
+            e.preventDefault();
+            loginSection.style.display = 'none';
+            signupSection.style.display = 'flex';
+        });
+
+        // Show login form
+        document.getElementById('show-login').addEventListener('click', function(e) {
+            e.preventDefault();
+            signupSection.style.display = 'none';
+            loginSection.style.display = 'flex';
+        });
+
+        // Login form submission
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            // Validate credentials (simplified for demo)
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                // Set the farmer name in the dashboard
+                farmerNameElement.textContent = user.name;
+                
+                // Hide auth page, show dashboard
+                authPage.style.display = 'none';
+                dashboardPage.style.display = 'block';
+                
+                // Load active listings
+                loadActiveListings();
+                loadMarketplaceListings();
+            } else {
+                alert('Invalid email or password. Please try again.');
+            }
+            });
+            
+            // Signup form submission
+            document.getElementById('signup-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('signup-name').value;
+                const farm = document.getElementById('signup-farm').value;
+                const location = document.getElementById('signup-location').value;
+                const email = document.getElementById('signup-email').value;
+                const phone = document.getElementById('signup-phone').value;
+                const password = document.getElementById('signup-password').value;
+                const confirm = document.getElementById('signup-confirm').value;
+                
+                if (password !== confirm) {
+                    alert('Passwords do not match!');
+                    return;
+                }
+                
+                // Simplified: add user to the array
+                users.push({
+                    email,
+                    password,
+                    name,
+                    farm,
+                    location,
+                    phone
+                });
+                
+                alert('Account created successfully! Please login.');
+                
+                // Reset form and show login
+                document.getElementById('signup-form').reset();
+                signupSection.style.display = 'none';
+                loginSection.style.display = 'flex';
+            });
+            
+            // Logout button handler
+            document.getElementById('logout-btn').addEventListener('click', function() {
+                // Show auth page, hide dashboard
+                dashboardPage.style.display = 'none';
+                authPage.style.display = 'flex';
+                loginSection.style.display = 'flex';
+                signupSection.style.display = 'none';
+                
+                // Reset forms
+                document.getElementById('login-form').reset();
+                document.getElementById('signup-form').reset();
+            });
+            
+            // Add listing button handler
+            document.getElementById('add-listing-btn').addEventListener('click', function() {
+                addListingForm.style.display = 'block';
+            });
+            
+            // Cancel add listing button handler
+            document.getElementById('cancel-add').addEventListener('click', function() {
+                addListingForm.style.display = 'none';
+                document.getElementById('crop-form').reset();
+                imagePreview.innerHTML = '<div class="preview-placeholder">Image preview will appear here</div>';
+                fileNameDisplay.textContent = 'No file chosen';
+            });
+            
+            // File input change handler
+            fileInput.addEventListener('change', function(e) {
+                const file = fileInput.files[0];
+                
+                if (file) {
+                    fileNameDisplay.textContent = file.name;
+                    
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        imagePreview.innerHTML = `<img src="${e.target.result}" alt="Crop Image Preview">`;
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    fileNameDisplay.textContent = 'No file chosen';
+                    imagePreview.innerHTML = '<div class="preview-placeholder">Image preview will appear here</div>';
+                }
+            });
+            
+            // Add crop form submission
+            document.getElementById('crop-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Generate a new unique ID
+                const newId = sampleListings.length > 0 ? Math.max(...sampleListings.map(l => l.id)) + 1 : 1;
+                
+                // Create new listing object
+                const newListing = {
+                    id: newId,
+                    name: document.getElementById('crop-name').value,
+                    category: document.getElementById('crop-category').value,
+                    quantity: parseInt(document.getElementById('crop-quantity').value),
+                    price: parseFloat(document.getElementById('crop-price').value),
+                    description: document.getElementById('crop-description').value,
+                    manufactureDate: document.getElementById('manufacture-date').value,
+                    bestBefore: document.getElementById('best-before').value,
+                    // For demo purposes, use placeholder image
+                    image: `https://placehold.co/600x400/4CAF50/fff?text=${document.getElementById('crop-name').value.replace(/\s+/g, '+')}`
+                };
+                
+                // Add to active listings
+                sampleListings.push(newListing);
+                
+                // Reset form and hide
+                document.getElementById('crop-form').reset();
+                addListingForm.style.display = 'none';
+                imagePreview.innerHTML = '<div class="preview-placeholder">Image preview will appear here</div>';
+                fileNameDisplay.textContent = 'No file chosen';
+                
+                // Reload listings
+                loadActiveListings();
+            });
+            
+            // Create crop card element
+            function createCropCard(crop, isActive = false) {
+                const card = document.createElement('div');
+                card.className = 'crop-card';
+                card.dataset.id = crop.id;
+                
+                card.innerHTML = `
+                    <div class="crop-image">
+                        <img src="${crop.image}" alt="${crop.name}">
+                    </div>
+                    <div class="crop-info">
+                        <h3>${crop.name}</h3>
+                        <p class="crop-category">${crop.category}</p>
+                        <p class="crop-price">₹${crop.price.toFixed(2)}/kg</p>
+                        <p class="crop-quantity">${crop.quantity} kg available</p>
+                        <button class="btn btn-secondary view-details" data-id="${crop.id}">View Details</button>
+                    </div>
+                `;
+                
+                return card;
+            }
+            
+            // Load active listings
+            function loadActiveListings() {
+                activeListingsGrid.innerHTML = '';
+                
+                if (sampleListings.length === 0) {
+                    activeListingsGrid.innerHTML = '<p class="no-listings">You have no active listings. Click "Add New Listing" to get started.</p>';
+                    return;
+                }
+                
+                sampleListings.forEach(listing => {
+                    const card = createCropCard(listing, true);
+                    activeListingsGrid.appendChild(card);
+                });
+                
+                // Add event listeners to view details buttons
+                document.querySelectorAll('#active-listings .view-details').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const cropId = parseInt(this.dataset.id);
+                        showCropDetails(cropId, true);
+                    });
+                });
+            }
+            
+            // Load marketplace listings
+            function loadMarketplaceListings() {
+                marketplaceGrid.innerHTML = '';
+                
+                marketplaceListings.forEach(listing => {
+                    const card = createCropCard(listing);
+                    marketplaceGrid.appendChild(card);
+                });
+                
+                // Add event listeners to view details buttons
+                document.querySelectorAll('#marketplace-listings .view-details').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const cropId = parseInt(this.dataset.id);
+                        showCropDetails(cropId);
+                    });
+                });
+            }
+            
+            // Show crop details in modal
+            function showCropDetails(cropId, isActive = false) {
+                // Find crop by ID
+                const crop = isActive 
+                    ? sampleListings.find(l => l.id === cropId)
+                    : marketplaceListings.find(l => l.id === cropId);
+                
+                if (!crop) return;
+                
+                // Set current crop
+                currentCrop = crop;
+                
+                // Populate modal with crop details
+                document.getElementById('modal-crop-name').textContent = crop.name;
+                document.getElementById('modal-crop-price').textContent = `₹${crop.price.toFixed(2)}/kg`;
+                document.getElementById('modal-crop-quantity').textContent = `${crop.quantity} kg available`;
+                document.getElementById('modal-crop-category').textContent = `Category: ${crop.category}`;
+                document.getElementById('modal-crop-harvest').textContent = `Harvested: ${formatDate(crop.manufactureDate)}`;
+                document.getElementById('modal-crop-expiry').textContent = `Best Before: ${formatDate(crop.bestBefore)}`;
+                document.getElementById('modal-crop-description').textContent = crop.description;
+                document.getElementById('modal-crop-image').src = crop.image;
+                
+                // Update order summary
+                document.getElementById('summary-crop-name').textContent = crop.name;
+                document.getElementById('summary-price').textContent = `₹${crop.price.toFixed(2)}`;
+                
+                // Show the modal
+                cropDetailModal.style.display = 'flex';
+                
+                // Set active tab to details
+                showTab('details');
+            }
+            
+            // Format date function
+            function formatDate(dateString) {
+                const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                return new Date(dateString).toLocaleDateString(undefined, options);
+            }
+            
+            // Close modal handler
+            document.querySelector('.close-modal').addEventListener('click', function() {
+                cropDetailModal.style.display = 'none';
+            });
+            
+            // Close when clicking outside modal
+            window.addEventListener('click', function(e) {
+                if (e.target === cropDetailModal) {
+                    cropDetailModal.style.display = 'none';
+                }
+            });
+            
+            // Tab switching
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabName = this.dataset.tab;
+                    showTab(tabName);
+                });
+            });
+            
+            function showTab(tabName) {
+                // Hide all tab content
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Remove active class from all tabs
+                document.querySelectorAll('.tab').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                
+                // Add active class to selected tab and content
+                document.querySelector(`.tab[data-tab="${tabName}"]`).classList.add('active');
+                document.getElementById(`${tabName}-content`).classList.add('active');
+            }
+            
+            // Buy Now button handler
+            document.getElementById('show-buy-tab').addEventListener('click', function() {
+                showTab('buy');
+            });
+            
+            // Order quantity change handler
+            document.getElementById('order-quantity').addEventListener('input', function() {
+                if (!currentCrop) return;
+                
+                const quantity = parseInt(this.value) || 0;
+                const totalPrice = quantity * currentCrop.price;
+                
+                document.getElementById('summary-quantity').textContent = `${quantity} kg`;
+                document.getElementById('summary-total').textContent = `₹${totalPrice.toFixed(2)}`;
+            });
+            
+            // Checkout form submission
+            checkoutForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Hide form, show success
+                checkoutForm.style.display = 'none';
+                orderSuccess.style.display = 'block';
+            });
+            
+            // Close success message
+            document.getElementById('close-success').addEventListener('click', function() {
+                // Reset and hide modal
+                orderSuccess.style.display = 'none';
+                checkoutForm.style.display = 'block';
+                checkoutForm.reset();
+                cropDetailModal.style.display = 'none';
+                
+                // Reset quantity in summary
+                document.getElementById('summary-quantity').textContent = '';
+                document.getElementById('summary-total').textContent = '';
+            });
+            
+            // Initialize the app
+            document.addEventListener('DOMContentLoaded', function() {
+                // Start with auth page visible, dashboard hidden
+                authPage.style.display = 'flex';
+                dashboardPage.style.display = 'none';
+                loginSection.style.display = 'flex';
+                signupSection.style.display = 'none';
+                addListingForm.style.display = 'none';
+            });
+        </script>
+    </body>
+    </html>

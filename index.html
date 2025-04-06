@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agritech - Farmers' Hub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Header with Images on Both Sides and Centered Title -->
+    <div class="header">
+        <img src="https://www.india-briefing.com/news/wp-content/uploads/2021/11/MicrosoftTeams-image-6.jpg"
+            alt="Left Image" class="header-image left-image">
+        <h1>Agritech</h1>
+        <img src="https://www.india-briefing.com/news/wp-content/uploads/2021/11/MicrosoftTeams-image-6.jpg"
+            alt="Right Image" class="header-image right-image">
+    </div>
+
+    <div class="container">
+        <!-- Quotation -->
+        <p class="tagline">"Empowering Farmers with Technology"</p>
+
+        <!-- Categories -->
+        <div class="categories">
+            <!-- Testing Soil -->
+            <div class="category-card" onclick="window.location.href='soil-testing.html';">
+                <img src="https://t4.ftcdn.net/jpg/03/98/42/27/360_F_398422713_C4mC5jlBKvM2FGYyIGg0cGoJBgvPpulr.jpg"
+                    alt="Soil Testing">
+                <h3>Testing Soil</h3>
+                <p>Test your soil and get detailed analysis.</p>
+            </div>
+
+            <!-- Fertilizer Recommendations -->
+            <div class="category-card" onclick="window.location.href='fertilizer-recommendations.html';">
+                <img src="https://nitumezifarms.com/wp-content/uploads/2024/05/components-of-different-types-of-fertilizers.jpg"
+                    alt="Fertilizer Recommendations">
+                <h3>Fertilizer Recommendations</h3>
+                <p>Get the best fertilizers for your soil type.</p>
+            </div>
+
+            <!-- Price Prediction -->
+            <div class="category-card" onclick="window.location.href='price-prediction.html';">
+                <img src="https://insidesmallbusiness.com.au/wp-content/uploads/2021/04/bigstock-Money-Bag-On-The-Background-Of-346747225-e1638756391754-200x150.jpg"
+                    alt="Price Prediction">
+                <h3>Price Prediction</h3>
+                <p>Predict crop prices based on government data.</p>
+            </div>
+
+            <!-- Selling Platform -->
+            <div class="category-card" onclick="window.location.href='selling-platform.html';">
+                <img src="https://farmkartgroup.com/wp-content/uploads/2020/11/blog-app.jpg" alt="Selling Platform">
+                <h3>Selling Platform</h3>
+                <p>Sell your produce directly to buyers.</p>
+            </div>
+
+            <!-- Weather -->
+            <div class="category-card" onclick="window.location.href='weather.html';">
+                <img src="https://forumstatic.oneplusmobile.com/opforum-gl/upload/image/front/thread/20220615/1103571/1089244304612261891/1089244304612261891.jpg"
+                    alt="Weather">
+                <h3>Weather</h3>
+                <p>Get real-time weather updates for your farm.</p>
+            </div>
+        </div>
+    </div>
+    <button class="contact-button" onclick="window.location.href='contact-us.html';">
+        <img src="https://cdn-icons-png.flaticon.com/512/455/455705.png" alt="Contact Icon">
+        Contact Us
+    </button>
+    <style>
+        .contact-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #4CAF50;
+            /* Green background */
+            color: white;
+            /* White text */
+            padding: 12px 24px;
+            /* Padding for better spacing */
+            font-size: 16px;
+            /* Font size */
+            font-weight: 600;
+            /* Bold text */
+            border: none;
+            /* Remove default border */
+            border-radius: 8px;
+            /* Rounded corners */
+            cursor: pointer;
+            /* Pointer cursor on hover */
+            transition: all 0.3s ease;
+            /* Smooth transition for hover effects */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* Subtle shadow */
+            text-decoration: none;
+            /* Remove underline if used as a link */
+        }
+
+        .contact-button img {
+            width: 20px;
+            /* Icon size */
+            height: 20px;
+            /* Icon size */
+            margin-right: 10px;
+            /* Space between icon and text */
+            filter: brightness(0) invert(1);
+            /* Make the icon white */
+            transition: transform 0.3s ease;
+            /* Smooth icon animation */
+        }
+
+        .contact-button:hover {
+            background-color: #45a049;
+            /* Darker green on hover */
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+            /* Larger shadow on hover */
+            transform: translateY(-2px);
+            /* Slight lift effect */
+        }
+
+        .contact-button:active {
+            background-color: #3d8b40;
+            /* Even darker green on click */
+            transform: translateY(0);
+            /* Reset lift effect */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* Reset shadow */
+        }
+
+        .contact-button:hover img {
+            transform: scale(1.1);
+            /* Slightly enlarge the icon on hover */
+        }
+    </style>
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2023 Agritech. All rights reserved.</p>
+    </div>
+</body>
+
+</html>

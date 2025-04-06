@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soil Testing - Agritech</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* General Styles */
+        :root {
+            --primary-color: #28a745;
+            --primary-dark: #218838;
+            --secondary-color: #81c784;
+            --accent-color: #ffd54f;
+            --light-bg: #f0f8ff;
+            --dark-text: #333;
+            --light-text: #fff;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-bg);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--dark-text);
+            line-height: 1.6;
+        }
+
+        /* Header with Images on Both Sides and Centered Title */
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5cm; /* 5 cm distance between images and title */
+            padding: 20px 0;
+            width: 100%;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .header-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+            transition: var(--transition);
+        }
+        
+        .header-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Container for Content */
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--box-shadow);
+            width: 90%;
+            max-width: 1200px;
+            text-align: center;
+            margin-top: 20px;
+            flex-grow: 1;
+            animation: fadeIn 0.8s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70%;
+            height: 3px;
+            background-color: var(--accent-color);
+        }
+        
+        .container > p {
+            margin-bottom: 25px;
+            color: var(--dark-text);
+        }
+
+        /* Form Styles */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        fieldset {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        fieldset:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        legend {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 1.2em;
+            padding: 0 15px;
+            background-color: white;
+            border-radius: 20px;
+            position: absolute;
+            top: -12px;
+            left: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            font-weight: bold;
+            text-align: left;
+            margin-bottom: 8px;
+            display: block;
+            color: var(--dark-text);
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+        }
+
+        input, select {
+            padding: 12px 12px 12px 35px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1em;
+            width: 100%;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.2);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        button {
+            padding: 12px 25px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: var(--transition);
+            font-weight: 600;
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+        }
+        
+        .back-button {
+            background-color: #6c757d;
+            margin-top: 20px;
+        }
+        
+        .back-button:hover {
+            background-color: #5a6268;
+            box-shadow: 0 5px 15px rgba(108, 117, 125, 0.4);
+        }
+
+        /* Results Section */
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            text-align: left;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.5s ease;
+        }
+
+        .result h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .recommendation-item {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .recommendation-item p {
+            margin: 0;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .recommendation-item p:before {
+            content: "\f058";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+
+        /* Footer */
+        .footer {
+            width: 100%;
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 0.9em;
+        }
+        
+        /* Loading Spinner */
+        .spinner {
+            display: none;
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Visual charts for results */
+        .soil-chart {
+            width: 100%;
+            height: 20px;
+            background-color: #e9e9e9;
+            border-radius: 10px;
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .soil-chart-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+        
+        .optimal { background-color: #4CAF50; }
+        .warning { background-color: #FFC107; }
+        .critical { background-color: #F44336; }
+        .good { background-color: #8BC34A; }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .header-image {
+                width: 80px;
+                height: 80px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .container {
+                margin-top: 10px;
+                padding: 20px;
+            }
+
+            fieldset {
+                padding: 15px;
+            }
+
+            legend {
+                font-size: 1em;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Images on Both Sides and Centered Title -->
+    <div class="header">
+        <img src="https://img-cdn.thepublive.com/filters:format(webp)/industry-wired/media/post_attachments/wp-content/uploads/2019/07/6_Best-Agritech-Startups-Defining-the-Future-of-Agriculture-Industry.png" alt="Left Image" class="header-image left-image">
+        <h1>Agritech</h1>
+        <img src="https://www.csm.tech/storage/uploads/news/66459a90c3ba31715837584Thumb.jpg" alt="Right Image" class="header-image right-image">
+    </div>
+
+    <div class="container">
+        <h2>Soil Testing</h2>
+        <p>Enter your soil details to get recommendations for improving soil quality.</p>
+
+        <!-- Soil Testing Form -->
+        <form id="soilTestForm">
+            <!-- General Information -->
+            <fieldset>
+                <legend>General Information</legend>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="farmerName">Farmer Name:</label>
+                        <div class="input-wrapper">
+                            <i class="input-icon fas fa-user"></i>
+                            <input type="text" id="farmerName" name="farmerName" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="location">Location (Village, District, State, Country):</label>
+                        <div class="location-container">
+                          <input type="text" id="location" name="location" required placeholder="Your location will appear here">
+                          <button type="button" id="get-location" class="btn-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Use My Location
+                          </button>
+                        </div>
+                      </div>
+                      
+                      <style>
+                        .location-container {
+                          display: flex;
+                          align-items: center;
+                          gap: 10px;
+                        }
+                        .location-container input {
+                          flex: 1;
+                          padding: 10px;
+                          border: 1px solid #ccc;
+                          border-radius: 5px;
+                          font-size: 16px;
+                        }
+                        .btn-location {
+                          display: flex;
+                          align-items: center;
+                          gap: 5px;
+                          padding: 8px 12px;
+                          background-color: #2e7d32;
+                          color: #fff;
+                          border: none;
+                          border-radius: 5px;
+                          cursor: pointer;
+                          transition: background-color 0.3s ease;
+                          font-size: 14px;
+                        }
+                        .btn-location:hover {
+                          background-color: #1b5e20;
+                        }
+                      </style>
+                      
+                      <script>
+                        document.getElementById("get-location").addEventListener("click", function() {
+                          if (navigator.geolocation) {
+                            navigator.geolocation.getCurrentPosition(success, error);
+                          } else {
+                            alert("Geolocation is not supported by your browser.");
+                          }
+                        });
+                      
+                        function success(position) {
+                          const lat = position.coords.latitude;
+                          const lon = position.coords.longitude;
+                          // Reverse geocoding using OpenStreetMap's Nominatim API
+                          fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`)
+                            .then(response => response.json())
+                            .then(data => {
+                              document.getElementById("location").value = data.display_name;
+                            })
+                            .catch(err => {
+                              console.error("Reverse geocoding error:", err);
+                            });
+                        }
+                      
+                        function error(err) {
+                          alert(`ERROR(${err.code}): ${err.message}`);
+                        }
+                      </script>   
+                    <br>
+                    <div class="form-group">
+                        <label for="gpsCoordinates">GPS Coordinates (Optional):</label>
+                        <div class="input-wrapper">
+                            <i class="input-icon fas fa-globe"></i>
+                            <input type="text" id="gpsCoordinates" name="gpsCoordinates" readonly>
+                            <button type="button" onclick="getLocation()">Get Coordinates</button>
+                        </div>
+                        <small class="helper-text">Click the button to fetch your current location.</small>
+                    </div>
+                    
+                    <script>
+                    function getLocation() {
+                        if (navigator.geolocation) {
+                            navigator.geolocation.getCurrentPosition(showPosition, showError);
+                        } else {
+                            alert("Geolocation is not supported by this browser.");
+                        }
+                    }
+                    
+                    function showPosition(position) {
+                        document.getElementById("gpsCoordinates").value = position.coords.latitude + ", " + position.coords.longitude;
+                    }
+                    
+                    function showError(error) {
+                        switch(error.code) {
+                            case error.PERMISSION_DENIED:
+                                alert("User denied the request for Geolocation. Please enable location access.");
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                alert("Location information is unavailable.");
+                                break;
+                            case error.TIMEOUT:
+                                alert("The request to get user location timed out.");
+                                break;
+                            case error.UNKNOWN_ERROR:
+                                alert("An unknown error occurred.");
+                                break;
+                        }
+                    }
+                    </script>                    
+                    <div class="form-group">
+                        <label for="contactNumber">Contact Number (Optional):</label>
+                        <div class="input-wrapper">
+                            <i class="input-icon fas fa-phone"></i>
+                            <input type="tel" id="contactNumber" name="contactNumber">
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Soil Sample Details -->
+            <fieldset>
+                <legend>Soil Sample Details</legend>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="soilType">Soil Type:</label>
+                        <div class="input-wrapper">
+                            <i class="input-icon fas fa-mountain"></i>
+                            <select id="soilType" name="soilType" required>
+                                <option value="">Select soil type</option>
+                                <option value="sandy">Sandy</option>
+                                <option value="clay">Clay</option>
+                                <option value="loamy">Loamy</option>
+                                <option value="silty">Silty</option>
+                                <option value="peaty">Peaty</option>
+                                <option value="chalky">Chalky</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="soilColor">Soil Color:</label>
+                        <div class="input-wrapper">
+                            <i class="input-icon fas fa-palette"></i>
+                            <select id="soilColor" name="soilColor" required>
+                                <option value="">Select soil color</option>
+                                <option value="darkBrown">Dark Brown</option>
+                                <option value="lightBrown">Light Brown</option>
+                                <option value="red">Red</option>
+                                <option value="black">Black</option>
+                                <option value="gray">Gray</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="soilMoisture">Soil Moisture Level:</label>
+                        <div class="input-wrapper">
+                            <i class="input-icon fas fa-tint"></i>
+                            <select id="soilMoisture" name="soilMoisture" required>
+                                <option value="">Select moisture level</option>
+                                <option value="dry">Dry</option>
+                                <option value="slightlyMoist">Slightly Moist</option>
+                                <option value="moist">Moist</option>
+                                <option value="wet">Wet</option>
+                                <option value="saturated">Saturated</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="soilTexture">Soil Texture:</label>
+                        <div class="input-wrapper">
+                            <i class="input-icon fas fa-hands"></i>
+                            <select id="soilTexture" name="soilTexture" required>
+                                <option value="">Select texture</option>
+                                <option value="coarse">Coarse</option>
+                                <option value="moderatelyCoarse">Moderately Coarse</option>
+                                <option value="medium">Medium</option>
+                                <option value="moderatelyFine">Moderately Fine</option>
+                                <option value="fine">Fine</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+                        
+            <!-- Chemical Properties -->
+            <fieldset>
+                <legend>Chemical Properties</legend>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="soilPH">Soil pH Level:</label>
+                        <div class="input-wrapper">
+                            <i class="input-icon fas fa-flask"></i>
+                            <select id="soilPH" name="soilPH" required>
+                                <option value="">Select pH level</option>
+                                <option value="stronglyAcidic">Strongly Acidic (< 5.5)</option>
+                                <option value="moderatelyAcidic">Moderately Acidic (5.5 - 6.0)</option>
+                                <option value="slightlyAcidic">Slightly Acidic (6.0 - 6.5)</option>
+                                <option value="neutral">Neutral (6.5 - 7.5)</option>
+                                <option value="slightlyAlkaline">Slightly Alkaline (7.5 - 8.0)</option>
+                                <option value="moderatelyAlkaline">Moderately Alkaline (8.0 - 8.5)</option>
+                                <option value="stronglyAlkaline">Strongly Alkaline (> 8.5)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="nitrogenLevel">Nitrogen Level (N):</label>
+                        <div class="input-wrapper">
+                            <i class="input-icon fas fa-leaf"></i>
+                            <select id="nitrogenLevel" name="nitrogenLevel" required>
+                                <option value="">Select level</option>
+                                <option value="veryLow">Very Low</option>
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                                <option value="veryHigh">Very High</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phosphorusLevel">Phosphorus Level (P):</label>
+                        <div class="input-wrapper">
+                            <i class="input-icon fas fa-seedling"></i>
+                            <select id="phosphorusLevel" name="phosphorusLevel" required>
+                                <option value="">Select level</option>
+                                <option value="veryLow">Very Low</option>
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                                <option value="veryHigh">Very High</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="potassiumLevel">Potassium Level (K):</label>
+                        <div class="input-wrapper">
+                            <i class="input-icon fas fa-water"></i>
+                            <select id="potassiumLevel" name="potassiumLevel" required>
+                                <option value="">Select level</option>
+                                <option value="veryLow">Very Low</option>
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                                <option value="veryHigh">Very High</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="organicMatter">Organic Matter Content:</label>
+                        <div class="input-wrapper">
+                            <i class="input-icon fas fa-recycle"></i>
+                            <select id="organicMatter" name="organicMatter" required>
+                                <option value="">Select level</option>
+                                <option value="veryLow">Very Low (< 2%)</option>
+                                <option value="low">Low (2-3%)</option>
+                                <option value="medium">Medium (3-5%)</option>
+                                <option value="high">High (5-8%)</option>
+                                <option value="veryHigh">Very High (> 8%)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+                        
+            <!-- Farm Details -->
+            <fieldset>
+                <legend>Farm Details</legend>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="cropType">Current/Planned Crop:</label>
+                        <div class="input-wrapper">
+                            <i class="input-icon fas fa-wheat-awn"></i>
+                            <select id="cropType" name="cropType" required>
+                                <option value="">Select crop</option>
+                                <option value="rice">Rice</option>
+                                <option value="wheat">Wheat</option>
+                                <option value="maize">Maize</option>
+                                <option value="sugarcane">Sugarcane</option>
+                                <option value="cotton">Cotton</option>
+                                <option value="vegetables">Vegetables</option>
+                                <option value="fruits">Fruits</option>
+                                <option value="pulses">Pulses</option>
+                                <option value="oilseeds">Oilseeds</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="farmSize">Farm Size (Acres):</label>
+                        <div class="input-wrapper">
+                            <i class="input-icon fas fa-ruler-combined"></i>
+                            <input type="number" id="farmSize" name="farmSize" min="0.1" step="0.1" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="irrigationSource">Irrigation Source:</label>
+                        <div class="input-wrapper">
+                            <i class="input-icon fas fa-faucet"></i>
+                            <select id="irrigationSource" name="irrigationSource" required>
+                                <option value="">Select source</option>
+                                <option value="rainFed">Rain Fed</option>
+                                <option value="canal">Canal</option>
+                                <option value="well">Well</option>
+                                <option value="tubeWell">Tube Well</option>
+                                <option value="pond">Pond/Lake</option>
+                                <option value="river">River</option>
+                                <option value="drip">Drip Irrigation</option>
+                                <option value="sprinkler">Sprinkler</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="previousCrop">Previous Crop (Optional):</label>
+                        <div class="input-wrapper">
+                            <i class="input-icon fas fa-history"></i>
+                            <input type="text" id="previousCrop" name="previousCrop">
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+                        
+            <!-- Submit Button -->
+            <button type="submit" id="analyzeButton">
+                <i class="fas fa-microscope"></i> Analyze Soil
+            </button>
+        </form>
+                        
+        <!-- Loading Spinner -->
+        <div class="spinner" id="loadingSpinner"></div>
+                        
+        <!-- Results will appear here -->
+        <div class="result" id="resultSection" style="display: none;">
+            <h3>Soil Analysis Results</h3>
+                            
+            <div class="recommendation-item">
+                <p>Your soil is <span id="soilHealthStatus">moderately healthy</span>.</p>
+            </div>
+                        
+            <div class="recommendation-item">
+                <p>pH Level: <span id="pHResult"></span></p>
+                <div class="soil-chart">
+                    <div class="soil-chart-fill" id="pHChart"></div>
+                </div>
+            </div>
+                        
+            <div class="recommendation-item">
+                <p>Nitrogen Level: <span id="nitrogenResult"></span></p>
+                <div class="soil-chart">
+                    <div class="soil-chart-fill" id="nitrogenChart"></div>
+                </div>
+            </div>
+                        
+            <div class="recommendation-item">
+                <p>Phosphorus Level: <span id="phosphorusResult"></span></p>
+                <div class="soil-chart">
+                    <div class="soil-chart-fill" id="phosphorusChart"></div>
+                </div>
+            </div>
+                        
+            <div class="recommendation-item">
+                <p>Potassium Level: <span id="potassiumResult"></span></p>
+                <div class="soil-chart">
+                    <div class="soil-chart-fill" id="potassiumChart"></div>
+                </div>
+            </div>
+                        
+            <h3>Recommendations</h3>
+            <div id="recommendationsList">
+                <!-- Recommendations will be inserted here dynamically -->
+            </div>
+                            
+            <button class="back-button" id="backButton">
+                <i class="fas fa-arrow-left"></i> Back to Form
+            </button>
+        </div>
+    </div>
+                        
+    <div class="footer">
+        <p>&copy; 2025 Agritech - Empowering Farmers with Technology</p>
+    </div>
+                        
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('soilTestForm');
+            const analyzeButton = document.getElementById('analyzeButton');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const resultSection = document.getElementById('resultSection');
+            const backButton = document.getElementById('backButton');
+            const recommendationsList = document.getElementById('recommendationsList');
+                                
+            // Form submission
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                                    
+                // Show loading spinner
+                loadingSpinner.style.display = 'block';
+                                    
+                // Hide form
+                form.style.display = 'none';
+                                    
+                // Simulate loading time (2 seconds)
+                setTimeout(function() {
+                    // Hide spinner
+                    loadingSpinner.style.display = 'none';
+                                        
+                    // Process and display results
+                    processResults();
+                                        
+                    // Show results
+                    resultSection.style.display = 'block';
+                }, 2000);
+            });
+                                
+            // Back button
+            backButton.addEventListener('click', function() {
+                resultSection.style.display = 'none';
+                form.style.display = 'block';
+            });
+                                
+            // Process results based on form inputs
+            function processResults() {
+                // Get form values
+                const soilType = document.getElementById('soilType').value;
+                const soilPH = document.getElementById('soilPH').value;
+                const nitrogenLevel = document.getElementById('nitrogenLevel').value;
+                const phosphorusLevel = document.getElementById('phosphorusLevel').value;
+                const potassiumLevel = document.getElementById('potassiumLevel').value;
+                const cropType = document.getElementById('cropType').value;
+                const organicMatter = document.getElementById('organicMatter').value;
+                                    
+                // Update result elements
+                document.getElementById('pHResult').textContent = getPHText(soilPH);
+                document.getElementById('nitrogenResult').textContent = getLevelText(nitrogenLevel);
+                document.getElementById('phosphorusResult').textContent = getLevelText(phosphorusLevel);
+                document.getElementById('potassiumResult').textContent = getLevelText(potassiumLevel);
+                                    
+                // Set chart values
+                setChartValue('pHChart', getPHChartValue(soilPH), getPHChartClass(soilPH));
+                setChartValue('nitrogenChart', getLevelChartValue(nitrogenLevel), getLevelChartClass(nitrogenLevel));
+                setChartValue('phosphorusChart', getLevelChartValue(phosphorusLevel), getLevelChartClass(phosphorusLevel));
+                setChartValue('potassiumChart', getLevelChartValue(potassiumLevel), getLevelChartClass(potassiumLevel));
+                                    
+                // Set soil health status
+                setSoilHealthStatus();
+                                    
+                // Generate recommendations
+                generateRecommendations(soilType, soilPH, nitrogenLevel, phosphorusLevel, potassiumLevel, cropType);
+            }
+                                
+            // Helper functions
+            function getPHText(phLevel) {
+                switch(phLevel) {
+                    case 'stronglyAcidic': return 'Strongly Acidic (< 5.5)';
+                    case 'moderatelyAcidic': return 'Moderately Acidic (5.5 - 6.0)';
+                    case 'slightlyAcidic': return 'Slightly Acidic (6.0 - 6.5)';
+                    case 'neutral': return 'Neutral (6.5 - 7.5)';
+                    case 'slightlyAlkaline': return 'Slightly Alkaline (7.5 - 8.0)';
+                    case 'moderatelyAlkaline': return 'Moderately Alkaline (8.0 - 8.5)';
+                    case 'stronglyAlkaline': return 'Strongly Alkaline (> 8.5)';
+                    default: return 'Unknown';
+                }
+            }
+                                
+            function getLevelText(level) {
+                switch(level) {
+                    case 'veryLow': return 'Very Low';
+                    case 'low': return 'Low';
+                    case 'medium': return 'Medium';
+                    case 'high': return 'High';
+                    case 'veryHigh': return 'Very High';
+                    default: return 'Unknown';
+                }
+            }
+                                
+            function getPHChartValue(phLevel) {
+                switch(phLevel) {
+                    case 'stronglyAcidic': return '20%';
+                    case 'moderatelyAcidic': return '35%';
+                    case 'slightlyAcidic': return '45%';
+                    case 'neutral': return '80%';
+                    case 'slightlyAlkaline': return '60%';
+                    case 'moderatelyAlkaline': return '40%';
+                    case 'stronglyAlkaline': return '20%';
+                    default: return '0%';
+                }
+            }
+            
+            function getPHChartClass(phLevel) {
+                switch(phLevel) {
+                    case 'neutral': return 'optimal';
+                    case 'slightlyAcidic':
+                    case 'slightlyAlkaline': return 'good';
+                    case 'moderatelyAcidic':
+                    case 'moderatelyAlkaline': return 'warning';
+                    default: return 'critical';
+                }
+            }
+            
+            function getLevelChartValue(level) {
+                switch(level) {
+                    case 'veryLow': return '20%';
+                    case 'low': return '40%';
+                    case 'medium': return '60%';
+                    case 'high': return '80%';
+                    case 'veryHigh': return '100%';
+                    default: return '0%';
+                }
+            }
+            
+            function getLevelChartClass(level) {
+                switch(level) {
+                    case 'medium': return 'optimal';
+                    case 'high': return 'good';
+                    case 'low': return 'warning';
+                    case 'veryLow':
+                    case 'veryHigh': return 'critical';
+                    default: return '';
+                }
+            }
+            
+            function setChartValue(chartId, value, className) {
+                const chart = document.getElementById(chartId);
+                chart.style.width = value;
+                chart.className = 'soil-chart-fill ' + className;
+            }
+            
+            function setSoilHealthStatus() {
+                const nitrogenLevel = document.getElementById('nitrogenLevel').value;
+                const phosphorusLevel = document.getElementById('phosphorusLevel').value;
+                const potassiumLevel = document.getElementById('potassiumLevel').value;
+                const soilPH = document.getElementById('soilPH').value;
+                const organicMatter = document.getElementById('organicMatter').value;
+                
+                // Calculate a simple health score
+                let healthScore = 0;
+                
+                // Add points based on nutrient levels
+                if (['medium', 'high'].includes(nitrogenLevel)) healthScore += 20;
+                if (['medium', 'high'].includes(phosphorusLevel)) healthScore += 20;
+                if (['medium', 'high'].includes(potassiumLevel)) healthScore += 20;
+                
+                // Add points based on pH level
+                if (['neutral', 'slightlyAcidic', 'slightlyAlkaline'].includes(soilPH)) healthScore += 20;
+                
+                // Add points based on organic matter
+                if (['medium', 'high', 'veryHigh'].includes(organicMatter)) healthScore += 20;
+                
+                // Determine health status
+                let healthStatus;
+                if (healthScore >= 80) {
+                    healthStatus = 'very healthy';
+                } else if (healthScore >= 60) {
+                    healthStatus = 'healthy';
+                } else if (healthScore >= 40) {
+                    healthStatus = 'moderately healthy';
+                } else if (healthScore >= 20) {
+                    healthStatus = 'below average health';
+                } else {
+                    healthStatus = 'poor health';
+                }
+                
+                document.getElementById('soilHealthStatus').textContent = healthStatus;
+            }
+            
+            function generateRecommendations(soilType, soilPH, nitrogenLevel, phosphorusLevel, potassiumLevel, cropType) {
+                // Clear previous recommendations
+                recommendationsList.innerHTML = '';
+                
+                // Add recommendations based on soil properties
+                const recommendations = [];
+                
+                // pH recommendations
+                if (['stronglyAcidic', 'moderatelyAcidic'].includes(soilPH)) {
+                    recommendations.push('Apply agricultural lime to increase soil pH. For strongly acidic soils, consider 2-3 tons per acre; for moderately acidic soils, 1-2 tons per acre.');
+                } else if (['stronglyAlkaline', 'moderatelyAlkaline'].includes(soilPH)) {
+                    recommendations.push('Apply agricultural sulfur or gypsum to decrease soil pH. For strongly alkaline soils, consider 1-1.5 tons per acre; for moderately alkaline soils, 0.5-1 ton per acre.');
+                }
+                
+                // Nitrogen recommendations
+                if (['veryLow', 'low'].includes(nitrogenLevel)) {
+                    recommendations.push('Apply nitrogen-rich fertilizers such as urea, ammonium sulfate, or organic alternatives like compost, manure, or plant leguminous cover crops.');
+                } else if (nitrogenLevel === 'veryHigh') {
+                    recommendations.push('Reduce nitrogen application. Consider planting cover crops that use excess nitrogen, such as grasses or brassicas.');
+                }
+                
+                // Phosphorus recommendations
+                if (['veryLow', 'low'].includes(phosphorusLevel)) {
+                    recommendations.push('Apply phosphorus-rich fertilizers such as single superphosphate, diammonium phosphate, or rock phosphate for organic farming.');
+                } else if (phosphorusLevel === 'veryHigh') {
+                    recommendations.push('Avoid adding phosphorus fertilizers, as excess phosphorus can harm water bodies through runoff. Consider using catch crops to reduce phosphorus levels.');
+                }
+                
+                // Potassium recommendations
+                if (['veryLow', 'low'].includes(potassiumLevel)) {
+                    recommendations.push('Apply potassium-rich fertilizers such as potassium chloride, potassium sulfate, or organic sources like wood ash or seaweed.');
+                } else if (potassiumLevel === 'veryHigh') {
+                    recommendations.push('Reduce potassium application. High potassium can interfere with the uptake of other nutrients like calcium and magnesium.');
+                }
+                
+                // Soil type specific recommendations
+                switch(soilType) {
+                    case 'sandy':
+                        recommendations.push('Sandy soils tend to drain quickly and lose nutrients. Add organic matter like compost or aged manure to improve water retention and nutrient-holding capacity.');
+                        break;
+                    case 'clay':
+                        recommendations.push('Clay soils may have drainage issues. Add organic matter and consider deep tillage or raised beds to improve drainage. Avoid working clay soil when wet.');
+                        break;
+                    case 'loamy':
+                        recommendations.push('Loamy soils are generally ideal. Maintain soil health with regular additions of organic matter and proper crop rotation.');
+                        break;
+                    case 'silty':
+                        recommendations.push('Silty soils can become compacted easily. Minimize tillage, add organic matter, and avoid working the soil when wet.');
+                        break;
+                    case 'peaty':
+                        recommendations.push('Peaty soils are naturally acidic and may require liming. They also drain slowly when wet and may benefit from improved drainage systems.');
+                        break;
+                    case 'chalky':
+                        recommendations.push('Chalky soils are naturally alkaline and may have issues with iron availability. Consider adding iron supplements and organic matter to improve soil structure.');
+                        break;
+                }
+                
+                // Crop-specific recommendations
+                if (cropType) {
+                    recommendations.push(getCropSpecificRecommendation(cropType, soilPH, nitrogenLevel, phosphorusLevel, potassiumLevel));
+                }
+                
+                // Add general recommendation
+                recommendations.push('Regular soil testing is recommended every 2-3 years to monitor soil health and adjust management practices accordingly.');
+                
+                // Display recommendations
+                recommendations.forEach(rec => {
+                    const recItem = document.createElement('div');
+                    recItem.className = 'recommendation-item';
+                    recItem.innerHTML = `<p>${rec}</p>`;
+                    recommendationsList.appendChild(recItem);
+                });
+            }
+            
+            function getCropSpecificRecommendation(cropType, soilPH, nitrogenLevel, phosphorusLevel, potassiumLevel) {
+                switch(cropType) {
+                    case 'rice':
+                        return 'Rice typically prefers slightly acidic to neutral soil (pH 5.5-7.0) with good water retention. Ensure proper leveling of fields for uniform water distribution.';
+                    case 'wheat':
+                        return 'Wheat grows best in well-drained loamy soils with neutral to slightly alkaline pH (6.5-7.5). Use split application of nitrogen for better efficiency.';
+                    case 'maize':
+                        return 'Maize prefers well-drained soils with pH 5.8-7.0. Adequate nitrogen is crucial during the vegetative and early reproductive stages.';
+                    case 'sugarcane':
+                        return 'Sugarcane thrives in well-drained loamy soils with pH 6.0-7.5. Apply adequate potassium for better sugar content and disease resistance.';
+                    case 'cotton':
+                        return 'Cotton prefers well-drained soils with pH 5.8-8.0. Avoid excessive nitrogen which can promote vegetative growth at the expense of boll development.';
+                    case 'vegetables':
+                        return 'Most vegetables prefer well-drained soils with pH 6.0-7.0 and high organic matter. Consider raised beds for better drainage in heavy soils.';
+                    case 'fruits':
+                        return 'Fruit crops generally prefer well-drained soils with pH 6.0-7.0. Regular mulching can help maintain soil moisture and suppress weeds.';
+                    case 'pulses':
+                        return 'Pulses can fix atmospheric nitrogen and prefer well-drained soils with pH 6.0-7.5. Avoid excessive nitrogen fertilization which may reduce nodulation.';
+                    case 'oilseeds':
+                        return 'Oilseeds generally require well-drained soils with adequate sulfur for oil production. Most oilseeds perform well in neutral to slightly alkaline soils.';
+                    default:
+                        return 'Consider consulting with a local agricultural extension service for specific recommendations for your crop.';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Fertilizer Recommendation</title>
+    <style>
+        
+        /* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    scroll-behavior: smooth;
+}
+
+body {
+    background: linear-gradient(to right, #f0fff4, #e8f5e9);
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header */
+header {
+    background: linear-gradient(135deg, #2e7d32, #1b5e20);
+    color: white;
+    padding: 20px 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    transition: all 0.3s ease-in-out;
+    font-weight: 500;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Section Titles */
+h2 {
+    color: #1b5e20;
+    margin-bottom: 15px;
+    font-size: 24px;
+    border-left: 5px solid #2e7d32;
+    padding-left: 10px;
+}
+
+/* Sections */
+.section {
+    padding: 25px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Image Upload */
+.upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 35px;
+    border: 2px dashed #2e7d32;
+    border-radius: 12px;
+    background: #f0fff4;
+    margin-bottom: 30px;
+    transition: all 0.3s ease-in-out;
+}
+
+.upload-container:hover {
+    background: #e0f2f1;
+    transform: scale(1.02);
+}
+
+.upload-icon {
+    font-size: 50px;
+    color: #2e7d32;
+    margin-bottom: 15px;
+}
+
+.upload-text {
+    text-align: center;
+    font-weight: 500;
+}
+
+.file-input {
+    display: none;
+}
+
+.upload-btn {
+    background: #2e7d32;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+    font-weight: bold;
+}
+
+.upload-btn:hover {
+    background: #1b5e20;
+}
+
+/* Form */
+.crop-details-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border 0.3s;
+}
+
+input:focus, select:focus, textarea:focus {
+    border: 1px solid #2e7d32;
+    outline: none;
+}
+
+/* Buttons */
+.btn {
+    background: #2e7d32;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background: #1b5e20;
+}
+
+/* Image Preview */
+.image-preview-container {
+    display: none;
+    text-align: center;
+    margin-top: 25px;
+}
+
+.image-preview {
+    max-width: 100%;
+    max-height: 400px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Loading Indicator */
+.loading-container {
+    display: none;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.loading-spinner {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #2e7d32;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1.5s linear infinite;
+    margin: auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Results Section */
+.results-container {
+    display: none;
+    margin-top: 30px;
+}
+
+.diagnosis-container {
+    padding: 25px;
+    background: #e8f5e9;
+    border-radius: 10px;
+    border-left: 6px solid #2e7d32;
+}
+
+.diagnosis-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #2e7d32;
+    margin-bottom: 10px;
+}
+
+.recommendations-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.recommendation-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    background: white;
+}
+
+.recommendation-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.recommendation-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.recommendation-details {
+    padding: 15px;
+}
+
+.recommendation-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2e7d32;
+}
+
+.buy-btn {
+    background: #2e7d32;
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.buy-btn:hover {
+    background: #1b5e20;
+}
+
+/* Additional Info */
+.additional-info {
+    padding: 25px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    margin-top: 30px;
+}
+
+.application-tips ul {
+    margin-left: 20px;
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">AgriTech Fertilizer Recommendations</div>
+                <nav>
+                    <style>
+                        .hover-image {
+                          border-radius: 10px;
+                          transition: transform 0.3s ease-in-out;
+                        }
+                        .hover-image:hover {
+                          transform: scale(1.2);
+                        }
+                      </style>
+                      
+                      <img class="hover-image" src="https://m.media-amazon.com/images/I/6183FPTTDEL.jpg" height="120" width="110" alt="">
+                      
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="section">
+            <h2>Crop Fertilizer Recommendation System</h2>
+            <p>Upload an image of your crop to get personalized fertilizer and pesticide recommendations based on its current condition. Our system uses image processing to analyze your crop's health and provide the most appropriate solutions.</p>
+            
+            <!-- Upload Section -->
+            <div class="upload-container" id="upload-area">
+                <div class="upload-icon">📷</div>
+                <div class="upload-text">
+                    <h3>Upload Crop Image</h3>
+                    <p>Drag and drop your image here or click to browse files</p>
+                </div>
+                <input type="file" id="file-input" class="file-input" accept="image/*">
+                <button class="upload-btn" id="upload-btn">Select Image</button>
+            </div>
+            
+            <!-- Image Preview -->
+            <div class="image-preview-container" id="preview-container">
+                <h3>Image Preview</h3>
+                <img id="image-preview" class="image-preview">
+            </div>
+            
+            <!-- Crop Details Form -->
+            <div id="crop-details-form" style="display: none;">
+                <h3>Additional Crop Information</h3>
+                <p>Please provide more details about your crop to receive more accurate recommendations.</p>
+                
+                <div class="crop-details-form">
+                    <div class="form-group">
+                        <label for="crop-type">Crop Type</label>
+                        <select id="crop-type" required>
+                            <option value="">Select Crop Type</option>
+                            <option value="rice">Rice</option>
+                            <option value="wheat">Wheat</option>
+                            <option value="maize">Maize/Corn</option>
+                            <option value="potato">Potato</option>
+                            <option value="tomato">Tomato</option>
+                            <option value="cotton">Cotton</option>
+                            <option value="sugarcane">Sugarcane</option>
+                            <option value="onion">Onion</option>
+                            <option value="brinjal">Brinjal/Eggplant</option>
+                            <option value="chili">Chili</option>
+                            <option value="soybean">Soybean</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="crop-stage">Growth Stage</label>
+                        <select id="crop-stage" required>
+                            <option value="">Select Growth Stage</option>
+                            <option value="seedling">Seedling</option>
+                            <option value="vegetative">Vegetative</option>
+                            <option value="flowering">Flowering</option>
+                            <option value="fruiting">Fruiting</option>
+                            <option value="maturity">Maturity</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="soil-type">Soil Type</label>
+                        <select id="soil-type">
+                            <option value="">Select Soil Type</option>
+                            <option value="sandy">Sandy</option>
+                            <option value="loamy">Loamy</option>
+                            <option value="clay">Clay</option>
+                            <option value="silty">Silty</option>
+                            <option value="peaty">Peaty</option>
+                            <option value="chalky">Chalky</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="irrigation-type">Irrigation Type</label>
+                        <select id="irrigation-type">
+                            <option value="">Select Irrigation Type</option>
+                            <option value="flood">Flood</option>
+                            <option value="drip">Drip</option>
+                            <option value="sprinkler">Sprinkler</option>
+                            <option value="rainfed">Rainfed</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="symptoms-description">Describe Visible Symptoms (if any)</label>
+                    <textarea id="symptoms-description" rows="4" placeholder="e.g., yellowing leaves, brown spots, wilting, stunted growth"></textarea>
+                </div>
+                
+                <button class="btn" id="analyze-btn">Analyze and Get Recommendations</button>
+            </div>
+            
+            <!-- Loading Indicator -->
+            <div class="loading-container" id="loading-container">
+                <div class="loading-spinner"></div>
+                <p>Analyzing your crop image and generating recommendations...</p>
+            </div>
+            
+            <!-- Results Section -->
+            <div class="results-container" id="results-container">
+                <h3>Analysis Results</h3>
+                
+                <div class="diagnosis-container">
+                    <div class="diagnosis-title">Crop Diagnosis</div>
+                    <div class="diagnosis-text" id="diagnosis-text"></div>
+                    <div class="condition-level" id="condition-level"></div>
+                </div>
+                
+                <div class="recommendations-title">Recommended Fertilizers and Treatments</div>
+                <div class="recommendations-container" id="recommendations-container">
+                    <!-- Recommendation cards will be inserted here -->
+                </div>
+                
+                <div class="additional-info">
+                    <h3>Application Guidelines</h3>
+                    <p>For best results, follow these general guidelines when applying the recommended products:</p>
+                    
+                    <div class="application-tips">
+                        <ul>
+                            <li>Apply fertilizers in the early morning or late evening to minimize evaporation</li>
+                            <li>Avoid applying fertilizers before heavy rainfall to prevent runoff</li>
+                            <li>Follow package instructions for dilution and application rates</li>
+                            <li>Use protective gear when applying pesticides</li>
+                            <li>Store all products in a cool, dry place away from children and pets</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // DOM Elements
+        const uploadBtn = document.getElementById('upload-btn');
+        const fileInput = document.getElementById('file-input');
+        const uploadArea = document.getElementById('upload-area');
+        const previewContainer = document.getElementById('preview-container');
+        const imagePreview = document.getElementById('image-preview');
+        const cropDetailsForm = document.getElementById('crop-details-form');
+        const analyzeBtn = document.getElementById('analyze-btn');
+        const loadingContainer = document.getElementById('loading-container');
+        const resultsContainer = document.getElementById('results-container');
+        const diagnosisText = document.getElementById('diagnosis-text');
+        const conditionLevel = document.getElementById('condition-level');
+        const recommendationsContainer = document.getElementById('recommendations-container');
+        
+        // Fertilizer and Pesticide Database
+        const productsDatabase = {
+            // Fertilizers
+            fertilizers: [
+                {
+                    id: 'npk-20-20-20',
+                    name: 'NPK 20-20-20',
+                    type: 'Chemical Fertilizer',
+                    imageUrl: 'https://m.media-amazon.com/images/I/71KdSj45HqL._AC_UF1000,1000_QL80_.jpg',
+                    description: 'Balanced fertilizer providing equal amounts of nitrogen, phosphorus, and potassium for overall plant growth.',
+                    suitable_for: ['general', 'deficiency', 'balanced_growth'],
+                    application_rate: '2-3 grams per liter of water for foliar spray, 5-10 kg per acre for soil application.'
+                },
+                {
+                    id: 'urea',
+                    name: 'Urea (46-0-0)',
+                    type: 'Nitrogenous Fertilizer',
+                    imageUrl: 'https://m.media-amazon.com/images/I/71pEh2ufcvL._AC_UF894,1000_QL80_.jpg',
+                    description: 'High nitrogen fertilizer for promoting vegetative growth and green foliage.',
+                    suitable_for: ['nitrogen_deficiency', 'yellowing', 'stunted_growth'],
+                    application_rate: '10-15 kg per acre depending on crop type and stage.'
+                },
+                {
+                    id: 'dap',
+                    name: 'DAP (18-46-0)',
+                    type: 'Phosphatic Fertilizer',
+                    imageUrl: 'https://m.media-amazon.com/images/I/71pEh2ufcvL._AC_UF894,1000_QL80_.jpg',
+                    description: 'Diammonium phosphate fertilizer high in phosphorus for root development and flowering.',
+                    suitable_for: ['poor_flowering', 'weak_roots', 'phosphorus_deficiency'],
+                    application_rate: '8-12 kg per acre as basal application.'
+                },
+                {
+                    id: 'mop',
+                    name: 'MOP (0-0-60)',
+                    type: 'Potassic Fertilizer',
+                    imageUrl: 'https://mahadhan.co.in/wp-content/uploads/2017/05/mop-bulk.png',
+                    description: 'Muriate of Potash fertilizer for improving crop quality, disease resistance, and drought tolerance.',
+                    suitable_for: ['fruit_quality', 'disease_susceptibility', 'potassium_deficiency'],
+                    application_rate: '7-12 kg per acre based on soil test.'
+                },
+                {
+                    id: 'calcium-nitrate',
+                    name: 'Calcium Nitrate',
+                    type: 'Calcium Fertilizer',
+                    imageUrl: 'https://m.media-amazon.com/images/I/71p56y-5cfL._AC_UF1000,1000_QL80_.jpg',
+                    description: 'Water-soluble fertilizer providing calcium and nitrogen to prevent disorders like blossom end rot.',
+                    suitable_for: ['calcium_deficiency', 'blossom_end_rot', 'fruit_cracking'],
+                    application_rate: '2-3 kg per acre as foliar spray, 5-10 kg per acre as soil application.'
+                },
+                {
+                    id: 'zinc-sulphate',
+                    name: 'Zinc Sulphate',
+                    type: 'Micronutrient Fertilizer',
+                    imageUrl: 'https://m.media-amazon.com/images/I/71p56y-5cfL._AC_UF1000,1000_QL80_.jpg',
+                    description: 'Micronutrient fertilizer to correct zinc deficiency which affects enzyme systems and growth hormones.',
+                    suitable_for: ['zinc_deficiency', 'interveinal_chlorosis', 'stunted_growth'],
+                    application_rate: '0.5-1.0 kg per acre as foliar spray, 10-15 kg per acre as soil application.'
+                },
+                {
+                    id: 'boron',
+                    name: 'Boron Supplement',
+                    type: 'Micronutrient Fertilizer',
+                    imageUrl: 'https://www.trustbasket.com/cdn/shop/files/71F-oYe1piL._SL1500_1024x1024.jpg?v=1733460928',
+                    description: 'Essential micronutrient for cell wall formation, pollination, and fruit development.',
+                    suitable_for: ['boron_deficiency', 'poor_pollination', 'hollow_stems'],
+                    application_rate: '100-200 grams per acre as foliar spray.'
+                },
+                {
+                    id: 'vermicompost',
+                    name: 'Vermicompost',
+                    type: 'Organic Fertilizer',
+                    imageUrl: 'https://static.wixstatic.com/media/86eefd_119cc14668ba4928bfacfc4646be0783~mv2.jpg/v1/fill/w_480,h_548,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/86eefd_119cc14668ba4928bfacfc4646be0783~mv2.jpg',
+                    description: 'Organic fertilizer produced by earthworms, rich in nutrients and beneficial microorganisms.',
+                    suitable_for: ['organic_farming', 'soil_health', 'sustainable_agriculture'],
+                    application_rate: '1-2 tons per acre.'
+                },
+                {
+                    id: 'bone-meal',
+                    name: 'Bone Meal',
+                    type: 'Organic Fertilizer',
+                    imageUrl: 'https://www.jiomart.com/images/product/original/rvc0k0eri4/evana-organic-fertilizer-bone-meal-organic-fertilizer-manure-for-home-plants-rich-in-phosphorus-and-calcium-natural-plant-fertiliser-1800-gm-product-images-orvc0k0eri4-p597981164-0-202301310926.jpg?im=Resize=(1000,1000)',
+                    description: 'Slow-release organic phosphorus source, good for root crops and flowering plants.',
+                    suitable_for: ['organic_phosphorus', 'root_crops', 'flowering_plants'],
+                    application_rate: '100-200 kg per acre as basal application.'
+                }
+            ],
+            
+            // Pesticides
+            pesticides: [
+                {
+                    id: 'neem-oil',
+                    name: 'Neem Oil',
+                    type: 'Organic Pesticide',
+                    imageUrl: 'https://images.meesho.com/images/products/222698542/une63_512.webp',
+                    description: 'Natural pesticide effective against a wide range of pests including aphids, mealybugs, and mites.',
+                    suitable_for: ['aphids', 'mealybugs', 'mites', 'organic_farming'],
+                    application_rate: '2-3 ml per liter of water as foliar spray.'
+                },
+                {
+                    id: 'copper-fungicide',
+                    name: 'Copper Fungicide',
+                    type: 'Fungicide',
+                    imageUrl: 'https://images.meesho.com/images/products/222698542/une63_512.webp',
+                    description: 'Broad-spectrum fungicide for controlling various fungal diseases including early and late blight.',
+                    suitable_for: ['leaf_spots', 'blights', 'fungal_diseases'],
+                    application_rate: '2-3 grams per liter of water, spray at 7-10 day intervals.'
+                },
+                {
+                    id: 'sulfur-dust',
+                    name: 'Sulfur Dust',
+                    type: 'Fungicide',
+                    imageUrl: 'https://5.imimg.com/data5/SELLER/Default/2023/10/357111475/LE/IJ/UM/1141697/sulphur-dusting-powder-85.jpg',
+                    description: 'Controls powdery mildew, rust, and some mites. Can be applied as dust or wettable powder.',
+                    suitable_for: ['powdery_mildew', 'rust', 'mites'],
+                    application_rate: '10-15 kg per acre as dust, 2-3 grams per liter as spray.'
+                },
+                {
+                    id: 'bt-spray',
+                    name: 'Bt (Bacillus thuringiensis) Spray',
+                    type: 'Biological Insecticide',
+                    imageUrl: 'https://agribegri.com/productimage/14122845301718874988.webp',
+                    description: 'Biological insecticide specific to caterpillars, won\'t harm beneficial insects.',
+                    suitable_for: ['caterpillars', 'borers', 'organic_farming'],
+                    application_rate: '1-2 grams per liter of water, apply every 7-10 days during infestation.'
+                },
+                {
+                    id: 'spinosad',
+                    name: 'Spinosad',
+                    type: 'Biological Insecticide',
+                    imageUrl: 'https://agribegri.com/productimage/14122845301718874988.webp',
+                    description: 'Derived from soil bacteria, effective against thrips, leafminers, and caterpillars.',
+                    suitable_for: ['thrips', 'leafminers', 'caterpillars', 'organic_options'],
+                    application_rate: '0.5-1.0 ml per liter of water, apply at 7-14 day intervals.'
+                },
+                {
+                    id: 'mancozeb',
+                    name: 'Mancozeb',
+                    type: 'Fungicide',
+                    imageUrl: 'https://down-ph.img.susercontent.com/file/54095e427febbe78b3ad834a8f92ff1e',
+                    description: 'Broad-spectrum contact fungicide for controlling downy mildew, early blight, and leaf spots.',
+                    suitable_for: ['downy_mildew', 'early_blight', 'leaf_spots'],
+                    application_rate: '2-3 grams per liter of water, spray at 7-10 day intervals.'
+                },
+                {
+                    id: 'ipm-sticky-traps',
+                    name: 'Yellow Sticky Traps',
+                    type: 'IPM Tool',
+                    imageUrl: 'https://gumtreetraps.com/wp-content/uploads/2024/02/Yellow-sticky-traps.webp',
+                    description: 'Non-toxic traps for monitoring and capturing flying insects such as whiteflies, aphids, and thrips.',
+                    suitable_for: ['whiteflies', 'aphids', 'thrips', 'monitoring'],
+                    application_rate: '10-15 traps per acre, place at crop canopy level.'
+                },
+                {
+                    id: 'trichoderma',
+                    name: 'Trichoderma Viride',
+                    type: 'Biological Fungicide',
+                    imageUrl: 'https://utkarshagro.com/cdn/shop/files/Trichoherz-p-01.jpg?v=1736083868',
+                    description: 'Beneficial fungus that controls soil-borne pathogens and promotes plant growth.',
+                    suitable_for: ['root_rot', 'wilt', 'damping_off', 'biological_control'],
+                    application_rate: '1-2 kg per acre mixed with compost or applied to soil.'
+                }
+            ],
+            
+            // Bio-stimulants and Growth Promoters
+            biostimulants: [
+                {
+                    id: 'seaweed-extract',
+                    name: 'Seaweed Extract',
+                    type: 'Bio-stimulant',
+                    imageUrl: 'https://m.media-amazon.com/images/I/6183FPTTDEL.jpg',
+                    description: 'Natural plant growth stimulant containing cytokinins, auxins, and trace elements to boost plant vigor.',
+                    suitable_for: ['stress_tolerance', 'growth_promotion', 'yield_enhancement'],
+                    application_rate: '2-3 ml per liter of water as foliar spray every 15-20 days.'
+                },
+                {
+                    id: 'humic-acid',
+                    name: 'Humic Acid',
+                    type: 'Soil Conditioner',
+                    imageUrl: 'https://utkarshagro.com/cdn/shop/files/Trichoherz-p-01.jpg?v=1736083868',
+                    description: 'Improves soil structure, nutrient uptake, and root development.',
+                    suitable_for: ['poor_soil', 'nutrient_uptake', 'root_development'],
+                    application_rate: '2-3 liters per acre through drip irrigation or soil application.'
+                },
+                {
+                    id: 'amino-acid',
+                    name: 'Amino Acid Complex',
+                    type: 'Bio-stimulant',
+                    imageUrl: 'https://utkarshagro.com/cdn/shop/files/Trichoherz-p-01.jpg?v=1736083868',
+                    description: 'Provides essential amino acids to support plant metabolism and stress recovery.',
+                    suitable_for: ['stress_recovery', 'nutrient_deficiency', 'transplant_shock'],
+                    application_rate: '2-3 ml per liter of water as foliar spray.'
+                }
+            ]
+        };
+        
+        // Event Listeners
+        uploadBtn.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#4CAF50';
+            uploadArea.style.backgroundColor = '#e8f5e9';
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.borderColor = '#2e7d32';
+            uploadArea.style.backgroundColor = '#f0f8f0';
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#2e7d32';
+            uploadArea.style.backgroundColor = '#f0f8f0';
+            
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                handleFileSelect();
+            }
+        });
+        
+        fileInput.addEventListener('change', handleFileSelect);
+        
+        analyzeBtn.addEventListener('click', analyzeImage);
+        
+        // Handle file selection
+        function handleFileSelect() {
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    previewContainer.style.display = 'block';
+                    cropDetailsForm.style.display = 'block';
+                    uploadArea.style.borderStyle = 'solid';
+                    
+                    // Scroll to the crop details form
+                    cropDetailsForm.scrollIntoView({ behavior: 'smooth' });
+                };
+                
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        }
+        
+        
+        // Analyze image and generate recommendations
+function analyzeImage() {
+    // Get form values
+    const cropType = document.getElementById('crop-type').value;
+    const cropStage = document.getElementById('crop-stage').value;
+    const soilType = document.getElementById('soil-type').value;
+    const symptomsDescription = document.getElementById('symptoms-description').value;
+    
+    // Validate required fields
+    if (!cropType || !cropStage) {
+        alert('Please select crop type and growth stage');
+        return;
+    }
+    
+    // Show loading screen
+    cropDetailsForm.style.display = 'none';
+    loadingContainer.style.display = 'block';
+    
+    // Simulate API call/processing delay
+    setTimeout(() => {
+        // Hide loading screen
+        loadingContainer.style.display = 'none';
+        
+        // Generate diagnosis based on inputs
+        generateDiagnosis(cropType, cropStage, soilType, symptomsDescription);
+        
+        // Show results
+        resultsContainer.style.display = 'block';
+        
+        // Scroll to results
+        resultsContainer.scrollIntoView({ behavior: 'smooth' });
+    }, 2000);
+}
+
+// Generate diagnosis and recommendations
+function generateDiagnosis(cropType, cropStage, soilType, symptomsDescription) {
+    let diagnosis = '';
+    let condition = '';
+    let recommendedProducts = [];
+    
+    // Parse symptoms for keywords
+    const symptoms = symptomsDescription.toLowerCase();
+    const hasYellowing = symptoms.includes('yellow') || symptoms.includes('chlorosis');
+    const hasSpots = symptoms.includes('spot') || symptoms.includes('lesion');
+    const hasWilting = symptoms.includes('wilt') || symptoms.includes('droop');
+    const hasStunted = symptoms.includes('stunt') || symptoms.includes('small');
+    const hasPests = symptoms.includes('insect') || symptoms.includes('pest') || 
+                     symptoms.includes('bite') || symptoms.includes('chew');
+    
+    // Sample diagnosis logic based on symptoms and crop details
+    if (hasYellowing) {
+        diagnosis += "The yellowing of leaves indicates a possible nutrient deficiency, most likely nitrogen. ";
+        
+        if (cropStage === 'vegetative' || cropStage === 'seedling') {
+            diagnosis += "This is particularly concerning during the " + cropStage + " stage as it can significantly impact future growth. ";
+            recommendedProducts.push(productsDatabase.fertilizers.find(f => f.id === 'urea'));
+            recommendedProducts.push(productsDatabase.fertilizers.find(f => f.id === 'npk-20-20-20'));
+        }
+        
+        condition = "Moderate concern";
+    }
+    
+    if (hasSpots) {
+        diagnosis += "The spots on leaves suggest a fungal infection, which is common in " + cropType + " crops. ";
+        
+        if (soilType === 'clay' || soilType === 'peaty') {
+            diagnosis += "This may be exacerbated by the " + soilType + " soil which can retain excess moisture. ";
+        }
+        
+        recommendedProducts.push(productsDatabase.pesticides.find(p => p.id === 'copper-fungicide'));
+        recommendedProducts.push(productsDatabase.pesticides.find(p => p.id === 'mancozeb'));
+        
+        condition = "High concern";
+    }
+    
+    if (hasWilting) {
+        diagnosis += "Wilting could indicate water stress or root diseases. ";
+        
+        if (cropStage === 'flowering' || cropStage === 'fruiting') {
+            diagnosis += "This is critical during the " + cropStage + " stage and requires immediate attention. ";
+            recommendedProducts.push(productsDatabase.biostimulants.find(b => b.id === 'seaweed-extract'));
+            recommendedProducts.push(productsDatabase.pesticides.find(p => p.id === 'trichoderma'));
+        }
+        
+        condition = "High concern";
+    }
+    
+    if (hasPests) {
+        diagnosis += "There are signs of pest infestation which can rapidly spread if not controlled. ";
+        recommendedProducts.push(productsDatabase.pesticides.find(p => p.id === 'neem-oil'));
+        recommendedProducts.push(productsDatabase.pesticides.find(p => p.id === 'bt-spray'));
+        recommendedProducts.push(productsDatabase.pesticides.find(p => p.id === 'ipm-sticky-traps'));
+        
+        condition = "High concern";
+    }
+    
+    if (hasStunted) {
+        diagnosis += "Stunted growth may indicate multiple issues including nutrient deficiencies, soil compaction, or root problems. ";
+        recommendedProducts.push(productsDatabase.fertilizers.find(f => f.id === 'npk-20-20-20'));
+        recommendedProducts.push(productsDatabase.biostimulants.find(b => b.id === 'humic-acid'));
+        
+        condition = "Moderate concern";
+    }
+    
+    // If no specific symptoms detected, provide general recommendations
+    if (!hasYellowing && !hasSpots && !hasWilting && !hasPests && !hasStunted) {
+        diagnosis = "Based on the image analysis, your " + cropType + " crop appears to be in generally good condition. However, to optimize growth during the " + cropStage + " stage, we recommend a balanced fertilizer application. ";
+        
+        if (cropStage === 'seedling' || cropStage === 'vegetative') {
+            recommendedProducts.push(productsDatabase.fertilizers.find(f => f.id === 'npk-20-20-20'));
+            recommendedProducts.push(productsDatabase.biostimulants.find(b => b.id === 'amino-acid'));
+        } else if (cropStage === 'flowering' || cropStage === 'fruiting') {
+            recommendedProducts.push(productsDatabase.fertilizers.find(f => f.id === 'dap'));
+            recommendedProducts.push(productsDatabase.fertilizers.find(f => f.id === 'calcium-nitrate'));
+        } else if (cropStage === 'maturity') {
+            recommendedProducts.push(productsDatabase.fertilizers.find(f => f.id === 'mop'));
+        }
+        
+        condition = "Healthy";
+    }
+    
+    // Add soil-specific recommendations
+    if (soilType) {
+        diagnosis += "\n\nSoil considerations: ";
+        
+        if (soilType === 'sandy') {
+            diagnosis += "Sandy soils typically have poor nutrient retention. We recommend adding organic matter and using split applications of fertilizers. ";
+            if (!recommendedProducts.some(p => p.id === 'vermicompost')) {
+                recommendedProducts.push(productsDatabase.fertilizers.find(f => f.id === 'vermicompost'));
+            }
+        } else if (soilType === 'clay') {
+            diagnosis += "Clay soils can suffer from poor drainage and compaction. Consider adding gypsum or organic matter to improve soil structure. ";
+            recommendedProducts.push(productsDatabase.biostimulants.find(b => b.id === 'humic-acid'));
+        } else if (soilType === 'loamy') {
+            diagnosis += "Loamy soil is ideal for most crops but still benefits from regular organic matter additions to maintain fertility. ";
+        }
+    }
+    
+    // Ensure we don't have duplicate recommendations
+    recommendedProducts = [...new Map(recommendedProducts.map(item => [item.id, item])).values()];
+    
+    // Limit to max 6 recommendations
+    if (recommendedProducts.length > 6) {
+        recommendedProducts = recommendedProducts.slice(0, 6);
+    }
+    
+    // Add recommendations if we have less than 3
+    if (recommendedProducts.length < 3) {
+        // Add general fertilizer recommendation
+        if (!recommendedProducts.some(p => p.id === 'npk-20-20-20')) {
+            recommendedProducts.push(productsDatabase.fertilizers.find(f => f.id === 'npk-20-20-20'));
+        }
+        
+        // Add biostimulant
+        if (!recommendedProducts.some(p => p.id === 'seaweed-extract')) {
+            recommendedProducts.push(productsDatabase.biostimulants.find(b => b.id === 'seaweed-extract'));
+        }
+    }
+    
+    // Display diagnosis and recommendations
+    diagnosisText.innerHTML = diagnosis;
+    conditionLevel.innerHTML = '<strong>Condition:</strong> ' + condition;
+    
+    // Clear previous recommendations
+    recommendationsContainer.innerHTML = '';
+    
+    // Add recommendation cards
+    recommendedProducts.forEach(product => {
+        const card = document.createElement('div');
+        card.className = 'recommendation-card';
+        
+        card.innerHTML = `
+            <img src="${product.imageUrl}" alt="${product.name}" class="recommendation-image">
+            <div class="recommendation-details">
+                <div class="recommendation-name">${product.name}</div>
+                <div class="recommendation-type">${product.type}</div>
+                <div class="recommendation-description">${product.description}</div>
+                <div class="recommendation-application"><strong>Application:</strong> ${product.application_rate}</div>
+                <button class="buy-btn">Buy Now</button>
+            </div>
+        `;
+        
+        recommendationsContainer.appendChild(card);
+    });
+}
+
+// Add event listener for buy buttons
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('buy-btn')) {
+        alert('Redirecting to product purchase page...');
+    }
+});
+</script>
